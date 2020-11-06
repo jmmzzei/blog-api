@@ -52,8 +52,15 @@ beforeAll(async () => {
     },
   ])
 })
+
 describe('GET /posts ', () => {
-  test('It should respond with posts', async () => {})
+  test('It should respond with posts', async () => {
+    const response = await request(app).get('/posts/')
+    expect(response.statusCode).toBe(200)
+    expect(response.body.length).toBeGreaterThanOrEqual(1)
+    expect(response.body[0]).toHaveProperty('id')
+    expect(response.body[0].id > response.body[1].id).toBe(true)
+  })
 })
 
 describe('GET /posts/:id ', () => {
