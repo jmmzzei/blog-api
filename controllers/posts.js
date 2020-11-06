@@ -51,4 +51,25 @@ exports.delete = async (req, res) => {
   }
 }
 
-exports.edit = async (req, res) => {}
+exports.edit = async (req, res) => {
+  try {
+    let { titulo, contenido, imagen, category_id, fecha_creacion } = req.body
+    let post = await postModel.update(
+      {
+        titulo: titulo,
+        contenido: contenido,
+        imagen: imagen,
+        category_id: category_id,
+        fecha_creacion: fecha_creacion,
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
+      },
+    )
+    res.json(post)
+  } catch (error) {
+    return res.status(500).send(error.message)
+  }
+}

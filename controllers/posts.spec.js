@@ -100,7 +100,17 @@ describe('PATCH /posts/:id ', () => {
 })
 
 describe('DELETE /posts/:id ', () => {
-  test('It should delete a post', async () => {})
+  test('It should delete a post', async () => {
+    const priorPosts = await request(app).get('/posts')
+    const lengthPriorPosts = priorPosts.body.length
+
+    const response = await request(app).delete('/posts/2')
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual(1)
+
+    const posts = await request(app).get('/posts')
+    expect(posts.body.length).toBe(lengthPriorPosts - 1)
+  })
 })
 
 afterAll(async () => {
