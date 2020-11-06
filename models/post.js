@@ -18,6 +18,9 @@ module.exports = (sequelize, type) => {
       imagen: {
         type: type.STRING,
         allowNull: false,
+        validate: {
+          is: /\.(jpeg|jpg|gif|png)$/,
+        },
       },
       fecha_creacion: {
         type: type.DATEONLY,
