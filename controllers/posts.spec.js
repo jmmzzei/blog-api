@@ -4,11 +4,53 @@ const request = require('supertest')
 const { sequelize, posts, categories } = require('../models/index')
 
 beforeAll(async () => {
-  await sequelize.sync({ force: true }).then(() => {
-    console.log(
-      'Connection succesfully established with: ' + sequelize.getDatabaseName(),
-    )
-  })
+  await sequelize
+    .sync({ force: true })
+    .then(() => {
+      console.log(
+        'Connection succesfully established with: ' +
+          sequelize.getDatabaseName(),
+      )
+    })
+    .then(() => {
+      categories.bulkCreate([
+        {
+          id: 1,
+          categoria: 'categoria test 1',
+        },
+        {
+          id: 2,
+          categoria: 'categoria test 2',
+        },
+        {
+          id: 3,
+          categoria: 'categoria test 3',
+        },
+      ])
+    })
+  await posts.bulkCreate([
+    {
+      titulo: 'titulo test',
+      contenido: 'contenido',
+      imagen: 'imagen.png',
+      category_id: 2,
+      fecha_creacion: '2020-04-05',
+    },
+    {
+      titulo: 'titulo test',
+      contenido: 'contenido',
+      imagen: 'imagen.jpg',
+      category_id: 1,
+      fecha_creacion: '2020-08-09',
+    },
+    {
+      titulo: 'titulo test',
+      contenido: 'content',
+      imagen: 'imagen2.gif',
+      category_id: 3,
+      fecha_creacion: '2020-11-09',
+    },
+  ])
 })
 describe('GET /posts ', () => {
   test('It should respond with posts', async () => {})

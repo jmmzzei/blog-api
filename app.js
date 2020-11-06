@@ -35,6 +35,22 @@ if (process.env.NODE_ENV !== 'test') {
           sequelize.getDatabaseName(),
       )
     })
+    .then(() => {
+      categories.bulkCreate([
+        {
+          id: 1,
+          categoria: 'categoria 1',
+        },
+        {
+          id: 2,
+          categoria: 'categoria 2',
+        },
+        {
+          id: 3,
+          categoria: 'categoria 3',
+        },
+      ])
+    })
     .catch(err => {
       console.error('Unable to connect to the database:', err)
     })
