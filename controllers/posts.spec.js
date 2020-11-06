@@ -87,7 +87,16 @@ describe('POST /posts', () => {
 })
 
 describe('PATCH /posts/:id ', () => {
-  test('It should update an existing post', async () => {})
+  test('It should update an existing post', async () => {
+    const response = await request(app).patch('/posts/1').send({
+      titulo: 'PATCH',
+      contenido: 'contenido',
+      imagen: 'imageqqn.jpg',
+      category_id: 2,
+      fecha_creacion: '2020-04-05',
+    })
+    expect(response.body).toEqual([1])
+  })
 })
 
 describe('DELETE /posts/:id ', () => {

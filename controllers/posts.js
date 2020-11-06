@@ -38,5 +38,17 @@ exports.create = async (req, res) => {
   }
 }
 
-exports.delete = async (req, res) => {}
+exports.delete = async (req, res) => {
+  try {
+    const post = await postModel.destroy({
+      where: {
+        id: req.params.id,
+      },
+    })
+    res.json(post)
+  } catch (error) {
+    return res.status(500).send(error.message)
+  }
+}
+
 exports.edit = async (req, res) => {}
