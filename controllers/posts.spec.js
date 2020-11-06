@@ -64,7 +64,12 @@ describe('GET /posts ', () => {
 })
 
 describe('GET /posts/:id ', () => {
-  test('It should respond with a single post', async () => {})
+  test('It should respond with a single post', async () => {
+    const response = await request(app).get('/posts/1')
+    expect(response.statusCode).toBe(200)
+    expect(typeof response.body).toBe('object')
+    expect(response.body).toHaveProperty('id')
+  })
 })
 
 describe('POST /posts', () => {

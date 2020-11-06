@@ -13,7 +13,15 @@ exports.getAll = async (req, res) => {
   }
 }
 
-exports.getById = async (req, res) => {}
+exports.getById = async (req, res) => {
+  try {
+    let post = await postModel.findByPk(req.params.id)
+    res.json(post)
+  } catch (error) {
+    return res.status(500).send(error.message)
+  }
+}
+
 exports.create = async (req, res) => {}
 exports.delete = async (req, res) => {}
 exports.edit = async (req, res) => {}
