@@ -73,7 +73,17 @@ describe('GET /posts/:id ', () => {
 })
 
 describe('POST /posts', () => {
-  test('It should save a new post', async () => {})
+  test('It should save a new post', async () => {
+    const response = await request(app).post('/posts').send({
+      titulo: 'POST',
+      contenido: 'content',
+      imagen: 'imagen3.png',
+      category_id: 1,
+      fecha_creacion: '2020-11-09',
+    })
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toHaveProperty('titulo')
+  })
 })
 
 describe('PATCH /posts/:id ', () => {

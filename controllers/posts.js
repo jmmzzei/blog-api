@@ -22,6 +22,21 @@ exports.getById = async (req, res) => {
   }
 }
 
-exports.create = async (req, res) => {}
+exports.create = async (req, res) => {
+  try {
+    let { titulo, contenido, imagen, category_id, fecha_creacion } = req.body
+    let post = await postModel.create({
+      titulo: titulo,
+      contenido: contenido,
+      imagen: imagen,
+      category_id: category_id,
+      fecha_creacion: fecha_creacion,
+    })
+    res.json(post)
+  } catch (error) {
+    return res.status(500).send(error.message)
+  }
+}
+
 exports.delete = async (req, res) => {}
 exports.edit = async (req, res) => {}
