@@ -17,4 +17,17 @@ const sequelize = new Sequelize(
 const posts = postModel(sequelize, DataTypes)
 const categories = categoryModel(sequelize, DataTypes)
 
+categories.hasMany(posts, {
+  foreignKey: {
+    allowNull: false,
+    name: 'category_id',
+  },
+})
+
+posts.belongsTo(categories, {
+  foreignKey: {
+    name: 'category_id',
+  },
+})
+
 module.exports = { sequelize, posts, categories }
