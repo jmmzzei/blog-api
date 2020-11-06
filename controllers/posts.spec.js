@@ -2,6 +2,8 @@ process.env.NODE_ENV = 'test'
 const app = require('../app')
 const request = require('supertest')
 const { sequelize, posts, categories } = require('../models/index')
+const populateCategories = require('../helpers/populateCategories')
+const populatePosts = require('../helpers/populatePosts')
 
 beforeAll(async () => {
   await sequelize
@@ -12,45 +14,11 @@ beforeAll(async () => {
           sequelize.getDatabaseName(),
       )
     })
-    .then(() => {
-      categories.bulkCreate([
-        {
-          id: 1,
-          categoria: 'categoria test 1',
-        },
-        {
-          id: 2,
-          categoria: 'categoria test 2',
-        },
-        {
-          id: 3,
-          categoria: 'categoria test 3',
-        },
-      ])
+    .catch(() => {
+      console.log('Cannot connect')
     })
-  await posts.bulkCreate([
-    {
-      titulo: 'titulo test',
-      contenido: 'contenido',
-      imagen: 'imagen.png',
-      category_id: 2,
-      fecha_creacion: '2020-04-05',
-    },
-    {
-      titulo: 'titulo test',
-      contenido: 'contenido',
-      imagen: 'imagen.jpg',
-      category_id: 1,
-      fecha_creacion: '2020-08-09',
-    },
-    {
-      titulo: 'titulo test',
-      contenido: 'content',
-      imagen: 'imagen2.gif',
-      category_id: 3,
-      fecha_creacion: '2020-11-09',
-    },
-  ])
+  await populateCategories('test')
+  await populatePosts('test')
 })
 
 describe('GET /posts ', () => {

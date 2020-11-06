@@ -6,6 +6,7 @@ const compression = require('compression')
 const helmet = require('helmet')
 const postRoutes = require('./routes/posts')
 const app = express()
+const populateCategories = require('./helpers/populateCategories')
 
 app.set('port', 4000)
 app.use(helmet())
@@ -28,31 +29,17 @@ if (
 if (process.env.NODE_ENV !== 'test') {
   sequelize
     .sync({ force: true })
-    // .sync()
     .then(() => {
       console.log(
         'Connection succesfully established with: ' +
           sequelize.getDatabaseName(),
       )
     })
-    .then(() => {
-      categories.bulkCreate([
-        {
-          id: 1,
-          categoria: 'categoria 1',
-        },
-        {
-          id: 2,
-          categoria: 'categoria 2',
-        },
-        {
-          id: 3,
-          categoria: 'categoria 3',
-        },
-      ])
-    })
     .catch(err => {
       console.error('Unable to connect to the database:', err)
+    })
+    .then(() => {
+      populateCategories()
     })
 }
 
