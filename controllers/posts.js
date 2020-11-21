@@ -1,5 +1,7 @@
 let postModel = require('../models/index')['posts']
 let sequelize = require('../models/index')['sequelize']
+let SUCCESS = 'success'
+let ERROR = 'error'
 
 exports.getAll = async (req, res) => {
   try {
@@ -7,18 +9,18 @@ exports.getAll = async (req, res) => {
       attributes: ['id', 'titulo', 'imagen', 'category_id', 'fecha_creacion'],
       order: [['fecha_creacion', 'DESC']],
     })
-    return res.json(posts)
+    return res.json({ status: SUCCESS, data: posts })
   } catch (error) {
-    return res.status(500).send(error.message)
+    return res.json({ status: ERROR, message: error.message })
   }
 }
 
 exports.getById = async (req, res) => {
   try {
     let post = await postModel.findByPk(req.params.id)
-    res.json(post)
+    return res.json({ status: SUCCESS, data: post })
   } catch (error) {
-    return res.status(500).send(error.message)
+    return res.json({ status: ERROR, message: error.message })
   }
 }
 
@@ -32,9 +34,9 @@ exports.create = async (req, res) => {
       category_id: category_id,
       fecha_creacion: fecha_creacion,
     })
-    res.json(post)
+    return res.json({ status: SUCCESS, data: post })
   } catch (error) {
-    return res.status(500).send(error.message)
+    return res.json({ status: ERROR, message: error.message })
   }
 }
 
@@ -45,9 +47,9 @@ exports.delete = async (req, res) => {
         id: req.params.id,
       },
     })
-    res.json(post)
+    return res.json({ status: SUCCESS, data: post })
   } catch (error) {
-    return res.status(500).send(error.message)
+    return res.json({ status: ERROR, message: error.message })
   }
 }
 
@@ -68,8 +70,8 @@ exports.edit = async (req, res) => {
         },
       },
     )
-    res.json(post)
+    return res.json({ status: SUCCESS, data: post })
   } catch (error) {
-    return res.status(500).send(error.message)
+    return res.json({ status: ERROR, message: error.message })
   }
 }
